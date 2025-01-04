@@ -22,14 +22,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable();
+        http.authorizeHttpRequests().anyRequest().permitAll();
         http.addFilterBefore(jwtFilter, AuthenticationFilter.class);
-        http.authorizeHttpRequests().requestMatchers("/api/auth/sign-up","/api/auth/login")
-                .permitAll()
-               .requestMatchers("/api/v1/property/addProperty")
-                .hasRole("PROPERTY_OWNER")
-                .requestMatchers("/api/v1/property/deleteProperty")
-                .hasAnyRole("PROPERTY_OWNER","OWNER")
-                .anyRequest().authenticated();  // Only authenticated users can access other requests
+       // http.authorizeHttpRequests().requestMatchers("/api/auth/sign-up","/api/auth/login","/api/auth/property/sign-up")
+              //  .permitAll()
+             //  .requestMatchers("/api/v1/property/addProperty")
+             //   .hasRole("OWNER")
+             //   .requestMatchers("/api/v1/property/deleteProperty")
+             //   .hasAnyRole("OWNER","ADMIN")
+               // .requestMatchers("/api/auth/blog/sign-up")
+               // .hasRole("ADMIN")
+               // .anyRequest().authenticated();  // Only authenticated users can access other requests
        // http.addFilterBefore(jwtFilter, AuthenticationFilter.class);
        // http.authorizeHttpRequests().anyRequest().permitAll();  // Allow all requests
         return http.build();

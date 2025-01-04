@@ -42,6 +42,45 @@ public class AuthController {
             return new ResponseEntity("mobile already exist", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+        user.setRole("ROLE_USER");
+        User savedUser =userRepository.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+    @PostMapping("/property/sign-up")
+    public ResponseEntity<?> createPropertyOwnerAccount(@RequestBody User user) {
+        Optional<User>opUsername= userRepository.findByUsername(user.getUsername());
+        if (opUsername.isPresent()) {
+            return new ResponseEntity("Username already exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Optional<User>opEmail= userRepository.findByEmail(user.getEmail());
+        if (opEmail.isPresent()) {
+            return new ResponseEntity("email already exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Optional<User>opMobile= userRepository.findByMobile(user.getMobile());
+        if (opMobile.isPresent()) {
+            return new ResponseEntity("mobile already exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+        user.setRole("ROLE_OWNER");
+        User savedUser =userRepository.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+    @PostMapping("/blog/sign-up")
+    public ResponseEntity<?> createBlogManagerAccount(@RequestBody User user) {
+        Optional<User>opUsername= userRepository.findByUsername(user.getUsername());
+        if (opUsername.isPresent()) {
+            return new ResponseEntity("Username already exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Optional<User>opEmail= userRepository.findByEmail(user.getEmail());
+        if (opEmail.isPresent()) {
+            return new ResponseEntity("email already exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Optional<User>opMobile= userRepository.findByMobile(user.getMobile());
+        if (opMobile.isPresent()) {
+            return new ResponseEntity("mobile already exist", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+        user.setRole("ROLE_BLOGMANAGER");
         User savedUser =userRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
